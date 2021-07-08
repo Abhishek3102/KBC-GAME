@@ -1,5 +1,7 @@
 ### Quiz-Python-Project
-## INT 213
+**-Fetching every time new questions from an open source Trivia API<br>
+-Tkinter & Pygame are used for GUI and some sound effects<br>
+-Developed in Python**<br>
 
 ## first screen 
 
