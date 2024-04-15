@@ -25,9 +25,8 @@ pygame.mixer.init()
 main_api="https://opentdb.com/api.php?amount=10&category=17&difficulty=easy&type=multiple"
 json_data=requests.get(main_api).json()
 questions=[]
-answers=[
+answers=[]
 
-]
 for i in range(0,10):
     json_q=json_data['results'][i]['question']
     questions.append(json_q)
@@ -41,35 +40,41 @@ for i in range(0,10):
 #for text to speech
 speak=pyttsx3.init()
 
+# New song to play after the game ends
+def play_new_song():
+    pygame.mixer.music.load("images/Here_Comes_The_Money.mp3")  # Update the path to your new song
+    pygame.mixer.music.play(loops=0)
+
 window=tk.Tk()
 window.geometry("800x600+0+0")
 window.title("Quiz Game")
+# window.configure(bg="#7b68ee")
 window.iconbitmap("images/skull.ico")
-#window.resizable(0,0)
+
 #calc
 txt=tk.StringVar()
 expression=""
+
 def main():
-    
     def changef(e):
-        pic1=tk.PhotoImage(file="images/main_1.png")
+        pic1=tk.PhotoImage(file="images/kbc_logo.png")
         btn.config(image=pic1)
         btn.image=pic1
+
     def change_backf(e):
         pic1=tk.PhotoImage(file="images/skull_1.png")
         btn.config(image=pic1)
         btn.image=pic1
-    
-    
+
     def ques(i,k):
         if i<10:
             if k==0:
                 speak.say("Correct")
                 speak.runAndWait()
-                
-            elif k!=0:                                
+
+            elif k!=0:
                 gameover()
-    
+
             optindex=[]
             while len(optindex)!=4:
                 x = random.randint(0,3)
@@ -77,14 +82,14 @@ def main():
                     continue
                 else:
                     optindex.append(x)
-            
+
             #print(optindex)
             lab_2.config(text=questions[i])
             opt_1.config(text=answers[i][optindex[0]],activebackground=color[optindex[0]],command=lambda:ques(i+1,optindex[0]))
             opt_2.config(text=answers[i][optindex[3]],activebackground=color[optindex[3]],command=lambda:ques(i+1,optindex[3]))
             opt_3.config(text=answers[i][optindex[2]],activebackground=color[optindex[2]],command=lambda:ques(i+1,optindex[2]))
             opt_4.config(text=answers[i][optindex[1]],activebackground=color[optindex[1]],command=lambda:ques(i+1,optindex[1]))
-            
+
         else:
             speak.say("You Win")
             speak.runAndWait()
@@ -97,6 +102,9 @@ def main():
             opt_3.place(relx=0.1,rely=0.7,relheight=0.3,relwidth=0.8)
             opt_4.destroy()
             lab_2.destroy()
+            
+            # Play new song after game ends
+            play_new_song()
 
     def gameover():
         speak.say("Game Over")
@@ -111,7 +119,8 @@ def main():
         opt_4.destroy()
         lab_2.destroy()
 
-
+        # Play new song after game ends
+        play_new_song()
 
     def play():
         global lab_2,opt_1,opt_2,opt_3,opt_4,color
@@ -129,8 +138,8 @@ def main():
         opt_3.place(relx=0,rely=0.7,relheight=0.2,relwidth=0.5)
         opt_4=tk.Button(f1,text=answers[0][3],fg="#edda76",activebackground="red",bg="#100f0d",bd=0,wraplength=200,font=("Arial"),command=gameover)
         opt_4.place(relx=0.5,rely=0.7,relheight=0.2,relwidth=0.5)
-
-
+    
+    
     def Tic():  
         def cleartic():
             global player,cnt,bx1,bx2,bx3,bx4,bx5,bx6,bx7,bx8,bx9
@@ -394,13 +403,12 @@ def main():
 
     def clicked():
         global pic2,playpic,morepic,devpic,closepic,lab_3,lab_5,lab_1
-        pygame.mixer.music.load("images/deeplaugh.mp3")
+        pygame.mixer.music.load("images/triple_h_song.mp3")
         pygame.mixer.music.play(loops=0)
         pic2=tk.PhotoImage(file="images/panel_1.png",)
         lab_0=tk.Label(f1,image=pic2,bd=0,bg="#100F0D")
         lab_0.place(relx=0.1,rely=0,relheight=0.3,relwidth=0.8)
 
-        
         closepic=tk.PhotoImage(file="images/button_close.png")
         lab_c=tk.Button(f1,image=closepic,bg="#100F0D",activebackground="#100f0d",bd=0,command=exit)
         lab_c.place(relx=0.7,rely=0,relheight=0.2,relwidth=0.3)        
@@ -418,17 +426,18 @@ def main():
         lab_5.place(relx=0.1,rely=0.7,relheight=0.3,relwidth=0.8)
 
         btn.destroy()
-     
+
     global f1
     f1=tk.Frame(window,bg="#100F0D")
     f1.place(relwidth=1,relheight=1)
     pic1=tk.PhotoImage(file="images/skull_1.png")
 
-    btn=tk.Button(f1,image=pic1,bg="#100F0D",bd=0,command=clicked,activebackground="#100f0d")
-    btn.place(relx=0.1,rely=0.1,relwidth=0.8,relheight=0.8)
-    btn.bind("<Enter>",changef)
-    btn.bind("<Leave>",change_backf)
+    btn=tk.Button(f1,image=pic1,bg="#100F0D",bd=0,activebackground="#100F0D",command=clicked)
+    btn.place(relx=0,rely=0,relheight=1,relwidth=1)
 
+    f1.bind("<Enter>",changef)
+    f1.bind("<Leave>",change_backf)
+    
     window.mainloop()
 
 main()
