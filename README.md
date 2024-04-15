@@ -48,4 +48,4 @@ then say()
 runAndwait()
 # In tkinter
 frame,button,grid,toplevel,place,bind,label,configStringVar
-
+----------------------------------------------------------------------------------------------------------------------------------------
